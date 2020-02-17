@@ -64,7 +64,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               <div className="field">
                 <label className="label">Password</label>
                 <p className="control has-icons-left">
-                  <input className="input" type="password" placeholder="Password" />
+                  <input className="input" type="password" placeholder="Password" autoComplete="off" />
                   <span className="icon is-small is-left">
                     <i className="fa fa-lock"></i>
                   </span>

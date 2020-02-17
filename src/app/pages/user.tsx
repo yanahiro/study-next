@@ -19,13 +19,13 @@ class User extends React.Component<UserProps> {
   static async getInitialProps(ctx: any) {
     try {
       let response;
-      response = await fetch("http://localhost/api/user");
+      // response = await fetch("http://localhost/api/user");
       // 現在のcontainerの性質上、クライアントとサーバーから取得するURLが異なる。
-      // if (process.browser) {
-      //   response = await fetch("http://localhost:8081/user.php");
-      // } else {
-      //   response = await fetch("http://study-next_web_1:8081/user.php");
-      // }
+      if (process.browser) {
+        response = await fetch("http://localhost:8081/user.php");
+      } else {
+        response = await fetch("http://study-next_web_1:8081/user.php");
+      }
       const json = await response.json();
       return {
         data: json.data
