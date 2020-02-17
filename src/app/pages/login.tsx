@@ -34,14 +34,15 @@ class Login extends React.Component<LoginProps, LoginState> {
         email: false,
         password: false,
       },
-      isLoading: false,
+      isLoading: false
     }
-    this.validator = new SimpleReactValidator();
+    this.validator = new SimpleReactValidator()
   }
 
   handleCredentialsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let { credentials } = this.state
     credentials[e.target.name] = e.target.value
+
     this.setState({ credentials })
   }
 
@@ -97,6 +98,7 @@ class Login extends React.Component<LoginProps, LoginState> {
   }
 
   public render() {
+
     return (
       <Layout title="Login" isHeader={false} isFooter={false}>
         <form action="">
