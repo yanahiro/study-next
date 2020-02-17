@@ -20,7 +20,7 @@ interface LoginState {
 
 class Login extends React.Component<LoginProps, LoginState> {
 
-  // ???????
+  // prorperty
   validator: any
 
   constructor(props: LoginProps) {
