@@ -11,17 +11,18 @@ interface LoginState {
     email: string
     password: string
   }
-  errors: {
-    email: boolean
-    password: boolean
-  }
   isLoading: boolean
 }
 
 class Login extends React.Component<LoginProps, LoginState> {
 
   // prorperty
-  validator: any
+  private validator: any
+
+  private rules = new Map<string, string>([
+    ['email', 'required|email'],
+    ['password', 'required']
+  ])
 
   constructor(props: LoginProps) {
     super(props)
@@ -30,13 +31,12 @@ class Login extends React.Component<LoginProps, LoginState> {
         email: "",
         password: "",
       },
-      errors: {
-        email: false,
-        password: false,
-      },
       isLoading: false
     }
-    this.validator = new SimpleReactValidator()
+    this.validator = new SimpleReactValidator({
+      element: message => <div className="help is-danger">{message}</div>
+    })
+    console.log(this.validator)
   }
 
   handleCredentialsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,25 +47,13 @@ class Login extends React.Component<LoginProps, LoginState> {
   }
 
   handleCredentialsBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let { credentials, errors } = this.state
+    let { credentials } = this.state
     credentials[e.target.name] = e.target.value
     if (!this.validator.fieldValid(e.target.name)) {
-      // errors update
-      errors[e.target.name] = true
       // validation error
       this.validator.showMessageFor(e.target.name)
       this.forceUpdate();
-    } else {
-      errors[e.target.name] = false
     }
-    // update errors status
-    this.setState({ errors })
-  }
-
-  handleCredentialFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let { errors } = this.state
-    errors[e.target.name] = false
-    this.setState({ errors })
   }
 
   handleLoginSubmit = (e: React.MouseEvent<HTMLElement>) => {
@@ -78,13 +66,10 @@ class Login extends React.Component<LoginProps, LoginState> {
       this.validator.showMessages()
       this.forceUpdate()
       const validErrors = this.validator.getErrorMessages()
-      let { errors } = this.state
       Object.keys(validErrors).forEach(validError => {
         // console.log(validError)
-        errors[validError] = true
+        // errorで何かしたい場合
       })
-      // update errors status
-      this.setState({ errors })
 
       return false;
     }
@@ -95,6 +80,17 @@ class Login extends React.Component<LoginProps, LoginState> {
       Router.push('/user')
       // Router.replace('/user')
     }, 1000)
+  }
+
+  // Inputのエラー判定
+  isErrorInput = (name: string, value: string) => {
+    // エラーメッセージの有無で判定
+    return Boolean(this.getErrorMessage(name, value))
+  }
+
+  // エラーメッセージを表示
+  getErrorMessage = (name: string, value: string) => {
+    return this.validator.message(name, value, this.rules.get(name))
   }
 
   public render() {
@@ -110,22 +106,22 @@ class Login extends React.Component<LoginProps, LoginState> {
               <div className="field">
                 <label className="label">Email</label>
                 <p className="control has-icons-left">
-                  <input className={`input ${this.state.errors.email ? 'is-danger' : ''}`} type="email" name="email" value={this.state.credentials.email} onChange={this.handleCredentialsChange} onBlur={this.handleCredentialsBlur} onFocus={this.handleCredentialFocus} placeholder="Email" />
+                  <input className={`input ${this.isErrorInput('email', this.state.credentials.email) ? 'is-danger' : ''}`} type="email" name="email" value={this.state.credentials.email} onChange={this.handleCredentialsChange} onBlur={this.handleCredentialsBlur} placeholder="Email" />
                   <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                   </span>
                 </p>
-                <div className="help is-danger">{this.validator.message('email', this.state.credentials.email, 'required|email')}</div>
+                {this.getErrorMessage('email', this.state.credentials.email)}
               </div>
               <div className="field">
                 <label className="label">Password</label>
                 <p className="control has-icons-left">
-                  <input className={`input ${this.state.errors.password ? 'is-danger' : ''}`}  type="password" name="password" value={this.state.credentials.password} onChange={this.handleCredentialsChange} onBlur={this.handleCredentialsBlur} onFocus={this.handleCredentialFocus} placeholder="Password" autoComplete="off" />
+                  <input className={`input ${this.isErrorInput('password', this.state.credentials.password) ? 'is-danger' : ''}`}  type="password" name="password" value={this.state.credentials.password} onChange={this.handleCredentialsChange} onBlur={this.handleCredentialsBlur} placeholder="Password" autoComplete="off" />
                   <span className="icon is-small is-left">
                     <i className="fas fa-lock"></i>
                   </span>
                 </p>
-                <div className="help is-danger">{this.validator.message('password', this.state.credentials.password, 'required')}</div>
+                {this.getErrorMessage('password', this.state.credentials.password)}
               </div>
               <div className="field">
                 <p className="">
