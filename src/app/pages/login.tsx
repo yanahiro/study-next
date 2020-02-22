@@ -158,8 +158,6 @@ class Login extends React.Component<LoginProps, LoginState> {
         `}
         </style>
       </Layout>
-
-
     );
   }
 
