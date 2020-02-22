@@ -96,66 +96,72 @@ class Login extends React.Component<LoginProps, LoginState> {
   public render() {
 
     return (
-      <Layout title="Login" isHeader={false} isFooter={false}>
-        <form action="">
-          <div className="login-area">
-            <div>
-              <h1 className=""><img src="/static/yanatch_black.png" alt="my image" /></h1>
+      <React.Fragment>
+        <Layout title="Login" isHeader={false} isFooter={false}>
+          <form action="">
+            <div className="login-area">
+              <div>
+                <h1 className=""><img src="/static/yanatch_black.png" alt="my image" /></h1>
+              </div>
+              <article className="box is-rounded">
+                <div className="field">
+                  <label className="label">Email</label>
+                  <p className="control has-icons-left">
+                    <input className={`input ${this.isErrorInput('email', this.state.credentials.email) ? 'is-danger' : ''}`} type="email" name="email" value={this.state.credentials.email} onChange={this.handleCredentialsChange} onBlur={this.handleCredentialsBlur} placeholder="Email" />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-envelope"></i>
+                    </span>
+                  </p>
+                  {this.getErrorMessage('email', this.state.credentials.email)}
+                </div>
+                <div className="field">
+                  <label className="label">Password</label>
+                  <p className="control has-icons-left">
+                    <input className={`input ${this.isErrorInput('password', this.state.credentials.password) ? 'is-danger' : ''}`}  type="password" name="password" value={this.state.credentials.password} onChange={this.handleCredentialsChange} onBlur={this.handleCredentialsBlur} placeholder="Password" autoComplete="off" />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-lock"></i>
+                    </span>
+                  </p>
+                  {this.getErrorMessage('password', this.state.credentials.password)}
+                </div>
+                <div className="field">
+                  <p className="">
+                    <button className="button is-medium is-info is-fullwidth" onClick={this.handleLoginSubmit}>ログイン</button>
+                  </p>
+                </div>
+              </article>
             </div>
-            <article className="box is-rounded">
-              <div className="field">
-                <label className="label">Email</label>
-                <p className="control has-icons-left">
-                  <input className={`input ${this.isErrorInput('email', this.state.credentials.email) ? 'is-danger' : ''}`} type="email" name="email" value={this.state.credentials.email} onChange={this.handleCredentialsChange} onBlur={this.handleCredentialsBlur} placeholder="Email" />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-                {this.getErrorMessage('email', this.state.credentials.email)}
-              </div>
-              <div className="field">
-                <label className="label">Password</label>
-                <p className="control has-icons-left">
-                  <input className={`input ${this.isErrorInput('password', this.state.credentials.password) ? 'is-danger' : ''}`}  type="password" name="password" value={this.state.credentials.password} onChange={this.handleCredentialsChange} onBlur={this.handleCredentialsBlur} placeholder="Password" autoComplete="off" />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-lock"></i>
-                  </span>
-                </p>
-                {this.getErrorMessage('password', this.state.credentials.password)}
-              </div>
-              <div className="field">
-                <p className="">
-                  <button className="button is-medium is-info is-fullwidth" onClick={this.handleLoginSubmit}>ログイン</button>
-                </p>
-              </div>
-            </article>
-          </div>
-        </form>
-        <style jsx>
-        {`
-          .login-area {
-            margin: 0 auto;
-            min-width: 375px;
-            max-width: 400px
-          }
-          .box {
-            padding-top: 3rem;
-          }
-          h1 {
-            padding: 3rem 6rem;
-            text-align: center;
-          }
+          </form>
+          <style jsx>
+          {`
+            .login-area {
+              margin: 0 auto;
+              min-width: 375px;
+              max-width: 400px
+            }
+            .box {
+              padding-top: 3rem;
+            }
+            h1 {
+              padding: 3rem 6rem;
+              text-align: center;
+            }
 
-          .field {
-            padding-bottom: 1.5rem;
-          }
+            .field {
+              padding-bottom: 1.5rem;
+            }
 
-          .icon svg {
-            height: 16px;
-          }
-        `}
-        </style>
-      </Layout>
+            .icon {
+              svg {
+                height: 16px;
+              }
+            }
+          `}
+          </style>
+        </Layout>
+      </React.Fragment>
+
+
     );
   }
 
