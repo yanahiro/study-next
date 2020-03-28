@@ -150,8 +150,10 @@ class Login extends React.Component<LoginProps, LoginState> {
             padding-bottom: 1.5rem;
           }
 
-          .icon svg {
-            height: 16px;
+          .icon {
+            svg {
+              height: 16px;
+            }
           }
         `}
         </style>
