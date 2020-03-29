@@ -5,40 +5,38 @@ import fetch from "isomorphic-unfetch";
 
 interface UserProps {
   data: {
-    name: string
-    enname: string
-    birthday: string
-    constellation: string
-  }
+    name: string;
+    enname: string;
+    birthday: string;
+    constellation: string;
+  };
 }
 
 class User extends React.Component<UserProps> {
   constructor(props: UserProps) {
     super(props)
   }
-  static async getInitialProps(ctx: any) {
+  // static async getInitialProps(ctx: any): Promise<UserProps> {
+  static async getInitialProps(): Promise<UserProps> {
     try {
-      let response;
-      // response = await fetch("http://localhost/api/user");
+      const response = await fetch("http://localhost/api/user");
       // 現在のcontainerの性質上、クライアントとサーバーから取得するURLが異なる。
-      if (process.browser) {
-        response = await fetch("http://localhost:8081/user.php");
-      } else {
-        response = await fetch("http://study-next_web_1:8081/user.php");
-      }
+      // if (process.browser) {
+      //   response = await fetch("http://localhost:8081/user.php");
+      // } else {
+      //   response = await fetch("http://study-next_web_1:8081/user.php");
+      // }
       const json = await response.json();
       return {
         data: json.data
       };
     } catch (e) {
       console.error(e);
-      return {
-        data: []
-      };
+      return null;
     }
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <Layout title="Yana Sample Test Screen">
         <div className="message is-info user-area">

@@ -8,16 +8,16 @@ interface LoginProps {
 }
 interface LoginState {
   credentials: {
-    email: string
-    password: string
-  }
-  isLoading: boolean
+    email: string;
+    password: string;
+  };
+  isLoading: boolean;
 }
 
 class Login extends React.Component<LoginProps, LoginState> {
 
   // prorperty
-  private validator: any
+  private validator: SimpleReactValidator
 
   private rules = new Map<string, string>([
     ['email', 'required|email'],
@@ -34,20 +34,20 @@ class Login extends React.Component<LoginProps, LoginState> {
       isLoading: false
     }
     this.validator = new SimpleReactValidator({
-      element: message => <div className="help is-danger">{message}</div>
+      element: (message: React.ReactElement): React.ReactElement => <div className="help is-danger">{message}</div>
     })
     console.log(this.validator)
   }
 
-  handleCredentialsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let { credentials } = this.state
+  handleCredentialsChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { credentials } = this.state
     credentials[e.target.name] = e.target.value
 
     this.setState({ credentials })
   }
 
-  handleCredentialsBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let { credentials } = this.state
+  handleCredentialsBlur = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { credentials } = this.state
     credentials[e.target.name] = e.target.value
     if (!this.validator.fieldValid(e.target.name)) {
       // validation error
@@ -56,7 +56,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
   }
 
-  handleLoginSubmit = (e: React.MouseEvent<HTMLElement>) => {
+  handleLoginSubmit = (e: React.MouseEvent<HTMLElement>): boolean => {
     e.preventDefault()
     if (this.validator.allValid()) {
       alert('Input validation success.')
@@ -67,7 +67,7 @@ class Login extends React.Component<LoginProps, LoginState> {
       this.forceUpdate()
       const validErrors = this.validator.getErrorMessages()
       Object.keys(validErrors).forEach(validError => {
-        // console.log(validError)
+        console.log(validError)
         // errorで何かしたい場合
       })
 
@@ -80,20 +80,22 @@ class Login extends React.Component<LoginProps, LoginState> {
       Router.push('/user')
       // Router.replace('/user')
     }, 1000)
+
+    return true;
   }
 
   // Inputのエラー判定
-  isErrorInput = (name: string, value: string) => {
+  isErrorInput = (name: string, value: string): boolean => {
     // エラーメッセージの有無で判定
     return Boolean(this.getErrorMessage(name, value))
   }
 
   // エラーメッセージを表示
-  getErrorMessage = (name: string, value: string) => {
+  getErrorMessage = (name: string, value: string): string => {
     return this.validator.message(name, value, this.rules.get(name))
   }
 
-  public render() {
+  public render(): JSX.Element {
 
     return (
       <Layout title="Login" isHeader={false} isFooter={false}>

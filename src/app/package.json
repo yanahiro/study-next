@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 80",
+    "dev": "npm run lint && next dev -p 80",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
     "isomorphic-unfetch": "^3.0.0",
-    "next": "^9.2.2",
+    "next": "^9.3.2",
     "node-sass": "^4.13.1",
     "react": "16.9.0",
     "react-dom": "16.9.0",
@@ -20,6 +21,10 @@
     "@types/node": "^12.12.27",
     "@types/react": "^16.9.20",
     "@types/react-dom": "^16.9.5",
+    "@typescript-eslint/eslint-plugin": "^2.25.0",
+    "@typescript-eslint/parser": "^2.25.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.19.0",
     "serialize-javascript": ">=2.1.1",
     "typescript": "^3.7.5"
   }

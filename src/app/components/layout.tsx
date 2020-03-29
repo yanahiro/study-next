@@ -3,12 +3,12 @@ import * as React from 'react'
 import Head from 'next/head'
 
 type Props = {
-  title?: string
-  isHeader?: boolean
-  isFooter?: boolean
+  title?: string;
+  isHeader?: boolean;
+  isFooter?: boolean;
 }
 
-function getHeader(title: string) {
+function getHeader(title: string): React.ReactElement {
   return (
     <header>
       <section className="hero is-dark">
@@ -22,7 +22,7 @@ function getHeader(title: string) {
   );
 }
 
-function getFooter() {
+function getFooter(): React.ReactElement {
   return (
     <footer className="footer">
       <div className="content has-text-centered">
